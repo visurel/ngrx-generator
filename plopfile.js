@@ -17,7 +17,8 @@ const defaults = function (name) {
     {
       type: 'directory',
       name: 'path',
-      message: 'Path?'
+      message: 'Path?',
+      basePath: './'
     }
   ];
 
