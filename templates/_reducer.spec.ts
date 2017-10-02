@@ -1,5 +1,5 @@
-import { reducer } from '{{position "reducers"}}/{{name}}.reducer';
-import * as from{{properCase name}} from '{{position "reducers"}}/{{name}}.reducer';
+import { reducer } from './{{name}}.reducer';
+import * as from{{properCase name}} from './{{name}}.reducer';
 
 describe('{{titleCase name}}Reducer', () => {
 

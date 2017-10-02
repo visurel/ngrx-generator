@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, BaseRequestOptions, Response, ResponseOptions, RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { {{ properCase name }}Service } from '{{position "services"}}/{{ lowerCase name }}.service';
+import { {{ properCase name }}Service } from './{{ lowerCase name }}.service';
 
 describe('Service: {{ properCase name }}Service', () => {
   let service: {{ properCase name }}Service = null;

@@ -2,8 +2,8 @@ import "rxjs/add/observable/of";
 import "rxjs/add/observable/throw";
 import { EffectsRunner, EffectsTestingModule } from "@ngrx/effects/testing";
 import { fakeAsync, TestBed, tick } from "@angular/core/testing";
-import { {{titleCase name}}Effects } from "{{position "effects"}}/{{lowerCase name}}.effects";
-import { {{titleCase name}}Service } from "{{position "services"}}/{{lowerCase name}}.service";
+import { {{titleCase name}}Effects } from "./{{lowerCase name}}.effects";
+import { {{titleCase name}}Service } from "./{{lowerCase name}}.service";
 import { Observable } from "rxjs/Observable";
 
 describe('{{titleCase name}}Effects', () => {
