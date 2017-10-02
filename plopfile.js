@@ -1,10 +1,3 @@
-const get = require('lodash.get');
-const pkg = require('./package.json');
-const finder = require('find-package-json');
-const pjson = finder().next().value;
-const nodePath = require('path');
-const pkgDir = require('pkg-dir');
-
 function validate(name, value) {
   if ((/.+/).test(value)) {
     return true;
@@ -12,28 +5,35 @@ function validate(name, value) {
   return name + ' is required';
 }
 
-const defaults = function(name) {
+const defaults = function (name) {
 
-  const p = [{
-        type: 'input',
-        name: 'name',
-        message: name + ' for?',
-        validate: validate.bind(this, name + ' name')
-      }];
+  const prompts = [
+    {
+      type: 'input',
+      name: 'name',
+      message: name + ' for?',
+      validate: validate.bind(this, name + ' name')
+    },
+    {
+      type: 'directory',
+      name: 'path',
+      message: 'Path?'
+    }
+  ];
+
   return {
     description: 'New ' + name,
-    prompts:  p
+    prompts: prompts
   }
-}
+};
 
 const actions = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.actions" "actions" }}/{{dashCase name}}.actions.ts',
+    path: '{{ path }}/{{dashCase name}}.actions.ts',
     templateFile: './templates/_actions.ts'
   }
 ];
-
 
 
 function actionGenerator(plop) {
@@ -47,17 +47,18 @@ function actionGenerator(plop) {
 const reducer = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.reducers" "reducers" }}/{{dashCase name}}.reducer.ts',
+    path: '{{ path }}/{{dashCase name}}.reducer.ts',
     templateFile: './templates/_reducer.ts'
   },
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.reducers" "reducers"}}/{{dashCase name}}.reducer.spec.ts',
+    path: '{{ path }}/{{dashCase name}}.reducer.spec.ts',
     templateFile: './templates/_reducer.spec.ts'
   }
-]
+];
+
 function reducerGenerator(plop) {
-   plop.setGenerator('Reducer',
+  plop.setGenerator('Reducer',
     Object.assign({}, defaults('Reducer'), {
       actions: reducer
     })
@@ -67,17 +68,17 @@ function reducerGenerator(plop) {
 const effect = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.effects" "effects" }}/{{dashCase name}}.effects.ts',
+    path: '{{ path }}/{{dashCase name}}.effects.ts',
     templateFile: './templates/_effect.ts'
   }, {
     type: 'add',
-    path: '{{ pkg "plop.effects" "effects" }}/{{dashCase name}}.effects.spec.ts',
+    path: '{{ path }}/{{dashCase name}}.effects.spec.ts',
     templateFile: './templates/_effects.spec.ts'
   }
 ];
 
 function effectGenerator(plop) {
-   plop.setGenerator('Effect',
+  plop.setGenerator('Effect',
     Object.assign({}, defaults('Effect'), {
       actions: effect
     })
@@ -87,11 +88,11 @@ function effectGenerator(plop) {
 const service = [
   {
     type: 'add',
-    path: '{{ pkg "ngrxGen.services" "services" }}/{{dashCase name}}.service.ts',
+    path: '{{ path }}/{{dashCase name}}.service.ts',
     templateFile: './templates/_service.ts'
   }, {
     type: 'add',
-    path: '{{ pkg "plop.services" "services" }}/{{dashCase name}}.service.spec.ts',
+    path: '{{ path }}/{{dashCase name}}.service.spec.ts',
     templateFile: './templates/_service.spec.ts'
   }
 ];
@@ -105,46 +106,20 @@ function serviceGenerator(plop) {
 }
 
 function wholeGenerator(plop) {
-    plop.setGenerator('The whole shebang',
-      Object.assign({}, defaults('Whole'), {
-        description: 'Actions, Reducer, Service and Effect',
-        actions: [].concat(actions, reducer, effect, service)
-      })
+  plop.setGenerator('The whole shebang',
+    Object.assign({}, defaults('Whole'), {
+      description: 'Actions, Reducer, Service and Effect',
+      actions: [].concat(actions, reducer, effect, service)
+    })
   );
 }
 
 module.exports = function (plop) {
-
-  plop.addHelper('pkg', (packageJSONPath, name) => {
-
-    if(get(pjson, 'ngrxGen.basePath')) {
-      const basePath = nodePath.resolve(get(pjson, 'ngrxGen.basePath'));
-      return nodePath.resolve(pkgDir.sync(process.cwd()), get(pjson, 'ngrxGen.basePath'), name);
-    }
-
-   if(get(pjson, 'ngrxGen.seperateDirectory')) {
-     return nodePath.resolve(process.cwd(), name);
-   }
-
-    if (get(pjson, packageJSONPath)) {
-      return nodePath.resolve(process.cwd(), get(pjson, packageJSONPath))
-    }
-
-    return nodePath.resolve(process.cwd(), '.');
-  });
-
-  plop.addHelper('position', function (name) {
-    if(get(pjson, 'ngrxGen.seperateDirectory')) {
-      return '../' + name;
-    }
-    return '.';
-  });
+  plop.addPrompt('directory', require('inquirer-directory'));
 
   wholeGenerator(plop);
   actionGenerator(plop);
   reducerGenerator(plop);
   effectGenerator(plop);
   serviceGenerator(plop);
-
-
 };
