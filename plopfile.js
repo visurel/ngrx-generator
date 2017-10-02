@@ -31,7 +31,7 @@ const defaults = function (name) {
 const actions = [
   {
     type: 'add',
-    path: process.cwd() + '{{ path }}/{{dashCase name}}.actions.ts',
+    path: process.cwd() + '/{{ path }}/{{dashCase name}}.actions.ts',
     templateFile: './templates/_actions.ts'
   }
 ];
@@ -48,12 +48,12 @@ function actionGenerator(plop) {
 const reducer = [
   {
     type: 'add',
-    path: process.cwd() + '{{ path }}/{{dashCase name}}.reducer.ts',
+    path: process.cwd() + '/{{ path }}/{{dashCase name}}.reducer.ts',
     templateFile: './templates/_reducer.ts'
   },
   {
     type: 'add',
-    path: process.cwd() + '{{ path }}/{{dashCase name}}.reducer.spec.ts',
+    path: process.cwd() + '/{{ path }}/{{dashCase name}}.reducer.spec.ts',
     templateFile: './templates/_reducer.spec.ts'
   }
 ];
@@ -69,11 +69,11 @@ function reducerGenerator(plop) {
 const effect = [
   {
     type: 'add',
-    path: process.cwd() + '{{ path }}/{{dashCase name}}.effects.ts',
+    path: process.cwd() + '/{{ path }}/{{dashCase name}}.effects.ts',
     templateFile: './templates/_effect.ts'
   }, {
     type: 'add',
-    path: process.cwd() + '{{ path }}/{{dashCase name}}.effects.spec.ts',
+    path: process.cwd() + '/{{ path }}/{{dashCase name}}.effects.spec.ts',
     templateFile: './templates/_effects.spec.ts'
   }
 ];
@@ -89,11 +89,11 @@ function effectGenerator(plop) {
 const service = [
   {
     type: 'add',
-    path: process.cwd() + '{{ path }}/{{dashCase name}}.service.ts',
+    path: process.cwd() + '/{{ path }}/{{dashCase name}}.service.ts',
     templateFile: './templates/_service.ts'
   }, {
     type: 'add',
-    path: process.cwd() + '{{ path }}/{{dashCase name}}.service.spec.ts',
+    path: process.cwd() + '/{{ path }}/{{dashCase name}}.service.spec.ts',
     templateFile: './templates/_service.spec.ts'
   }
 ];
