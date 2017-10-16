@@ -12,21 +12,21 @@ export const initialState: State = {
   result: []
 };
 
-export function reducer(state = initialState, action: from{{ camelCase name }}.Actions): State {
+export function reducer(state = initialState, action: from{{ properCase name }}.Actions): State {
   switch (action.type) {
-    case from{{ camelCase name }}.LOAD: {
+    case from{{ properCase name }}.LOAD: {
       return Object.assign({}, state, {
         loading: true
       })
     }
 
-    case from{{ camelCase name }}.LOAD_SUCCESS: {
+    case from{{ properCase name }}.LOAD_SUCCESS: {
       return Object.assign({}, state, {
         loading: false
       })
     }
 
-     case from{{ camelCase name }}.LOAD_FAIL: {
+     case from{{ properCase name }}.LOAD_FAIL: {
       return Object.assign({}, state, {
         loading: false
       })
